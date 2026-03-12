@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ TUAN 2027 ✨ BlackHitt Premium</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+</head>
+<body class="login-page">
+    <!-- 3D Background Canvas -->
+    <canvas id="bgCanvas"></canvas>
+    
+    <!-- Floating Orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    
+    <!-- Main Container -->
+    <div class="login-container">
+        <div class="login-card">
+            <!-- Logo -->
+            <div class="logo-wrapper">
+                <div class="logo-3d">
+                    <span class="logo-text">BLACKHITT</span>
+                    <span class="logo-year">2027</span>
+                </div>
+            </div>
+            
+            <!-- Welcome Text -->
+            <h1 class="login-title">Selamat Datang, <span class="gradient-text">TUAN</span></h1>
+            <p class="login-subtitle">Marketplace Premium No.1 Indonesia • Created by <span class="mr-ucup">MR UCUP</span></p>
+            
+            <!-- Login Box -->
+            <div class="login-box">
+                <div class="login-header">
+                    <i class="fas fa-crown"></i>
+                    <h2>Akses Dashboard TUAN</h2>
+                </div>
+                
+                <!-- Google Login Button -->
+                <button id="googleLoginBtn" class="google-btn">
+                    <img src="https://www.google.com/favicon.ico" alt="Google" class="google-icon">
+                    <span>Masuk dengan Google</span>
+                </button>
+                
+                <div class="login-divider">
+                    <span>atau</span>
+                </div>
+                
+                <!-- Manual Login (opsional) -->
+                <div class="manual-login">
+                    <p class="info-text">Demo: Login dengan Google langsung dapet akses</p>
+                </div>
+                
+                <!-- Stats -->
+                <div class="login-stats">
+                    <div class="stat">
+                        <div class="stat-value">15.8K+</div>
+                        <div class="stat-label">TUAN Aktif</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">23.9K+</div>
+                        <div class="stat-label">Order Selesai</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">24/7</div>
+                        <div class="stat-label">Support</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <div class="login-footer">
+                <p>© 2027 BLACKHITT • Created by MR UCUP</p>
+                <p class="small">Dengan masuk, kamu menyetujui syarat & ketentuan</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="firebase-config.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
