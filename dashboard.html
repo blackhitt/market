@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ DASHBOARD TUAN ✨ BlackHitt 2027</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+</head>
+<body>
+    <!-- 3D Background -->
+    <canvas id="bgCanvas"></canvas>
+    
+    <!-- Floating Orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    
+    <!-- AI Chat Assistant (REAL) -->
+    <div class="ai-assistant-modern" id="aiAssistant">
+        <div class="ai-toggle" onclick="toggleAI()">
+            <i class="fas fa-robot"></i>
+            <span class="ai-status">ONLINE</span>
+        </div>
+        
+        <div class="ai-window" id="aiWindow">
+            <div class="ai-header">
+                <div class="ai-header-left">
+                    <i class="fas fa-brain"></i>
+                    <div>
+                        <h3>AI ASISTEN TUAN</h3>
+                        <p>by MR UCUP • Gemini AI</p>
+                    </div>
+                </div>
+                <button onclick="toggleAI()" class="ai-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="ai-messages" id="aiMessages">
+                <div class="message bot">
+                    <div class="avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="bubble">
+                        <p>Halo <span class="user-name-display">TUAN</span>! Ada yang bisa aku bantu? Aku asisten pribadi yang dibuat oleh MR UCUP. Tanya apa aja ya!</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="ai-input-area">
+                <input type="text" id="aiInput" placeholder="Ketik pesan untuk AI..." onkeypress="handleAIKey(event)">
+                <button onclick="sendAIMessage()" class="ai-send">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+            
+            <div class="ai-footer">
+                <span>Powered by Gemini AI • Real-time</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-mini">
+                    <span>BH</span>
+                </div>
+                <h2>BLACK<span class="gradient-text">HITT</span></h2>
+            </div>
+            
+            <!-- User Profile -->
+            <div class="user-profile" id="userProfile">
+                <img src="" alt="Profile" class="profile-pic" id="profilePic">
+                <div class="user-info">
+                    <h3 id="userName">Loading...</h3>
+                    <p id="userEmail">TUAN</p>
+                </div>
+            </div>
+            
+            <!-- Navigation -->
+            <div class="nav-menu">
+                <a href="#home" class="nav-item active" onclick="showSection('home')">
+                    <i class="fas fa-home"></i>
+                    <span>Beranda</span>
+                </a>
+                <a href="#services" class="nav-item" onclick="showSection('services')">
+                    <i class="fas fa-bolt"></i>
+                    <span>Jasa Premium</span>
+                </a>
+                <a href="#apps" class="nav-item" onclick="showSection('apps')">
+                    <i class="fas fa-message"></i>
+                    <span>WA Mods</span>
+                </a>
+                <a href="#other-apps" class="nav-item" onclick="showSection('other-apps')">
+                    <i class="fas fa-crown"></i>
+                    <span>Aplikasi Premium</span>
+                </a>
+                <a href="#testimonials" class="nav-item" onclick="showSection('testimonials')">
+                    <i class="fas fa-star"></i>
+                    <span>Testimonial</span>
+                </a>
+                <a href="#groups" class="nav-item" onclick="showSection('groups')">
+                    <i class="fas fa-users"></i>
+                    <span>Komunitas</span>
+                </a>
+            </div>
+            
+            <!-- Owner Info -->
+            <div class="owner-mini" onclick="window.open('https://t.me/mrblackhitt', '_blank')">
+                <i class="fab fa-telegram"></i>
+                <div>
+                    <p>Owner: MR UCUP</p>
+                    <small>@mrblackhitt</small>
+                </div>
+                <span class="online-dot"></span>
+            </div>
+            
+            <!-- Logout -->
+            <button class="logout-btn-modern" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Keluar</span>
+            </button>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="content-header">
+                <button class="menu-toggle" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 id="pageTitle">Beranda</h1>
+                <div class="header-actions">
+                    <div class="online-counter">
+                        <i class="fas fa-eye"></i>
+                        <span id="onlineCount">1,337</span> online
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Sections -->
+            <div class="content-sections">
+                <!-- HOME SECTION -->
+                <section id="home" class="content-section active">
+                    <!-- Welcome Banner -->
+                    <div class="welcome-banner">
+                        <div class="banner-text">
+                            <h2>Selamat Datang Kembali, <span class="gradient-text" id="welcomeName">TUAN</span>!</h2>
+                            <p>Marketplace premium #1 Indonesia • Semua kebutuhan hacking & modifikasi ada di sini</p>
+                            
+                            <!-- Quick Stats -->
+                            <div class="quick-stats">
+                                <div class="quick-stat">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    <div>
+                                        <span class="stat-big">1,432</span>
+                                        <span>Order hari ini</span>
+                                    </div>
+                                </div>
+                                <div class="quick-stat">
+                                    <i class="fas fa-users"></i>
+                                    <div>
+                                        <span class="stat-big">15.8K</span>
+                                        <span>TUAN aktif</span>
+                                    </div>
+                                </div>
+                                <div class="quick-stat">
+                                    <i class="fas fa-clock"></i>
+                                    <div>
+                                        <span class="stat-big">24/7</span>
+                                        <span>Support MR UCUP</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="banner-3d">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                    </div>
+
+                    <!-- Featured Products -->
+                    <div class="section-header">
+                        <h2>🔥 Produk Terlaris Minggu Ini</h2>
+                        <a href="#" onclick="showSection('services')">Lihat Semua <i class="fas fa-arrow-right"></i></a>
+                    </div>
+
+                    <div class="featured-grid">
+                        <div class="featured-card" onclick="redirectOwner('Delta GB')">
+                            <div class="card-badge">#1 BESTSELLER</div>
+                            <div class="card-icon">
+                                <i class="fas fa-message"></i>
+                            </div>
+                            <h3>Delta GB</h3>
+                            <p>WA Mod dengan anti delete & blur UI</p>
+                            <div class="card-footer">
+                                <span class="price">PREMIUM</span>
+                                <span class="orders">2.4K+ orders</span>
+                            </div>
+                        </div>
+
+                        <div class="featured-card" onclick="redirectOwner('Banned WA')">
+                            <div class="card-icon">
+                                <i class="fas fa-ban"></i>
+                            </div>
+                            <h3>Banned WA</h3>
+                            <p>Banned permanen nomor target</p>
+                            <div class="card-footer">
+                                <span class="price">75K</span>
+                                <span class="orders">1.8K+ orders</span>
+                            </div>
+                        </div>
+
+                        <div class="featured-card" onclick="redirectOwner('Nokos')">
+                            <div class="card-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <h3>Nokos</h3>
+                            <p>Nomor kosong semua operator</p>
+                            <div class="card-footer">
+                                <span class="price">5K</span>
+                                <span class="orders">3.2K+ orders</span>
+                            </div>
+                        </div>
+
+                        <div class="featured-card" onclick="redirectOwner('Unban WA')">
+                            <div class="card-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <h3>Unban WA</h3>
+                            <p>Balikin nomor WA yang kena banned</p>
+                            <div class="card-footer">
+                                <span class="price">150K</span>
+                                <span class="orders">976 orders</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Purchases -->
+                    <div class="recent-purchases-modern">
+                        <h3><i class="fas fa-bell"></i> Transaksi Terbaru</h3>
+                        <div class="purchase-ticker-modern" id="purchaseTicker">
+                            <!-- JS akan isi ini -->
+                        </div>
+                    </div>
+
+                    <!-- CTA Owner -->
+                    <div class="cta-owner" onclick="window.open('https://t.me/mrblackhitt', '_blank')">
+                        <div class="cta-content">
+                            <i class="fab fa-telegram"></i>
+                            <div>
+                                <h3>Chat Owner Langsung - MR UCUP</h3>
+                                <p>Klik untuk order atau tanya-tanya • Respon < 5 menit</p>
+                            </div>
+                        </div>
+                        <span class="cta-badge">ONLINE 24/7</span>
+                    </div>
+                </section>
+
+                <!-- SERVICES SECTION -->
+                <section id="services" class="content-section">
+                    <h2 class="section-title-modern">✨ Jasa Premium TUAN</h2>
+                    
+                    <div class="services-grid-modern">
+                        <!-- BANNED SOSMED -->
+                        <div class="service-card-modern" onclick="redirectOwner('Banned Sosmed')">
+                            <div class="service-icon">
+                                <i class="fas fa-ban"></i>
+                                <span class="viewer-badge">234 lihat</span>
+                            </div>
+                            <h3>Banned Sosmed</h3>
+                            <p class="service-desc">Banned permanen IG • FB • TikTok • Twitter dalam 24 jam</p>
+                            <div class="service-meta">
+                                <span class="price-tag">Start 50K</span>
+                                <span class="original">150K</span>
+                            </div>
+                            <div class="service-footer">
+                                <span class="guarantee">✅ Garansi 100%</span>
+                                <span class="click-order">Klik Order <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </div>
+
+                        <!-- BANNED WA -->
+                        <div class="service-card-modern" onclick="redirectOwner('Banned WA')">
+                            <div class="service-icon">
+                                <i class="fas fa-phone-slash"></i>
+                                <span class="viewer-badge">187 lihat</span>
+                            </div>
+                            <h3>Banned WA</h3>
+                            <p class="service-desc">Banned permanen nomor WhatsApp target (2x24 jam)</p>
+                            <div class="service-meta">
+                                <span class="price-tag">Start 75K</span>
+                                <span class="original">199K</span>
+                            </div>
+                            <div class="service-footer">
+                                <span class="guarantee">✅ Garansi 100%</span>
+                                <span class="click-order">Klik Order <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </div>
+
+                        <!-- UNBAN WA -->
+                        <div class="service-card-modern" onclick="redirectOwner('Unban WA')">
+                            <div class="service-icon">
+                                <i class="fas fa-check-circle"></i>
+                                <span class="viewer-badge">98 lihat</span>
+                            </div>
+                            <h3>Unban WA</h3>
+                            <p class="service-desc">Balikin nomor WA yang kena banned permanen</p>
+                            <div class="service-meta">
+                                <span class="price-tag">Start 150K</span>
+                                <span class="original">299K</span>
+                            </div>
+                            <div class="service-footer">
+                                <span class="guarantee">✅ Garansi 100%</span>
+                                <span class="click-order">Klik Order <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </div>
+
+                        <!-- WEB SUNTIK -->
+                        <div class="service-card-modern" onclick="redirectOwner('Web Suntik')">
+                            <div class="service-icon">
+                                <i class="fas fa-syringe"></i>
+                                <span class="viewer-badge">211 lihat</span>
+                            </div>
+                            <h3>Web Suntik</h3>
+                            <p class="service-desc">Tools inject followers/likes/views otomatis</p>
+                            <div class="service-meta">
+                                <span class="price-tag">Start 100K</span>
+                                <span class="original">250K</span>
+                            </div>
+                            <div class="service-footer">
+                                <span class="guarantee">✅ Akses 1 bulan</span>
+                                <span class="click-order">Klik Order <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </div>
+
+                        <!-- NOKOS -->
+                        <div class="service-card-modern" onclick="redirectOwner('Nokos')">
+                            <div class="service-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                                <span class="viewer-badge">312 lihat</span>
+                            </div>
+                            <h3>Nokos</h3>
+                            <p class="service-desc">Nomor kosong semua operator + OTP ready</p>
+                            <div class="service-meta">
+                                <span class="price-tag">Start 5K</span>
+                                <span class="original">15K</span>
+                            </div>
+                            <div class="service-footer">
+                                <span class="guarantee">✅ 5 nomor</span>
+                                <span class="click-order">Klik Order <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </div>
+
+                        <!-- HACKING -->
+                        <div class="service-card-modern" onclick="redirectOwner('Hacking')">
+                            <div class="service-icon">
+                                <i class="fas fa-skull"></i>
+                                <span class="viewer-badge">156 lihat</span>
+                            </div>
+                            <h3>Hacking</h3>
+                            <p class="service-desc">Jasa hack IG/FB/WA/ML/Free Fire</p>
+                            <div class="service-meta">
+                                <span class="price-tag">Start 200K</span>
+                                <span class="original">399K</span>
+                            </div>
+                            <div class="service-footer">
+                                <span class="guarantee">✅ Work 100%</span>
+                                <span class="click-order">Klik Order <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </div>
+
+                        <!-- CODING WEB -->
+                        <div class="service-card-modern" onclick="redirectOwner('Coding Web')">
+                            <div class="service-icon">
+                                <i class="fas fa-code"></i>
+                                <span class="viewer-badge">89 lihat</span>
+                            </div>
+                            <h3>Coding Web</h3>
+                            <p class="service-desc">Buat website, landing page, tools auto profit</p>
+                            <div class="service-meta">
+                                <span class="price-tag">Start 300K</span>
+                                <span class="original">500K</span>
+                            </div>
+                            <div class="service-footer">
+                                <span class="guarantee">✅ Free revisi</span>
+                                <span class="click-order">Klik Order <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </div>
+
+                        <!-- CRACKER -->
+                        <div class="service-card-modern" onclick="redirectOwner('Cracker')">
+                            <div class="service-icon">
+                                <i class="fas fa-key"></i>
+                                <span class="viewer-badge">134 lihat</span>
+                            </div>
+                    
